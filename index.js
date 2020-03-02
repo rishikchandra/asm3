@@ -48,12 +48,12 @@ app.post('/api/insert', function(req, res){
 
 app.put('/api/update/:id/name/password/profession', function(req,res){
     const array = users.find(c => c.id === parseInt(req.params.id));
-    if(!array) res.status(404).send("user data not found.");
+    if(!array) return res.status(404).send("user data not found.");
 
     const { error } = validateName(req.body);
     if(error)
     {
-        res.status(400).send(error.details[0].message);
+        return res.status(400).send(error.details[0].message);
     }
     array.name = req.body.name;
     array.password = req.body.password;
@@ -78,7 +78,7 @@ function validateName(name)
 
 app.delete('/api/delete/:id', function(req,res){
     const array = users.find(c => c.id === parseInt(req.params.id));
-    if(!array) res.status(404).send("user data  not found.");
+    if(!array) return res.status(404).send("user data  not found.");
 
     const index = users.indexOf(array);
     users.splice(index,1);
